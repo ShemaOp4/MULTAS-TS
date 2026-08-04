@@ -1,0 +1,71 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        ).data.role == "admin"
+        && get(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        ).data.active == true;
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn() && request.auth.uid == userId;
+      allow write: if false;
+    }
+
+    match /multados/{documentId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /motivos/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /multas/{documentId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /reclamos/{documentId} {
+      allow read, update: if isAdmin();
+      allow create: if request.resource.data.keys().hasOnly([
+          "subject",
+          "description",
+          "status",
+          "anonymous",
+          "createdAt",
+          "updatedAt"
+        ])
+        && request.resource.data.subject is string
+        && request.resource.data.subject.size() >= 3
+        && request.resource.data.subject.size() <= 120
+        && request.resource.data.description is string
+        && request.resource.data.description.size() >= 10
+        && request.resource.data.description.size() <= 2000
+        && request.resource.data.status == "pending"
+        && request.resource.data.anonymous == true
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if false;
+    }
+
+    match /publicSummaries/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /publicMultas/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}
