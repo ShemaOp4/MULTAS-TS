@@ -3,7 +3,7 @@ import { db } from "../../../service/firebase/config";
 
 export type PublicSummary = {
   id: string;
-  multadoId: string;
+  personId: string;
   displayName: string;
   pendingTotal: number;
   pendingFineCount: number;
@@ -23,7 +23,7 @@ export async function getPublicSummaries(): Promise<PublicSummary[]> {
     const data = doc.data() as Record<string, unknown>;
     return {
       id: doc.id,
-      multadoId: String(data.multadoId || ""),
+      personId: String(data.personId || ""),
       displayName: String(data.displayName || ""),
       pendingTotal:
         typeof data.pendingTotal === "number"

@@ -18,7 +18,7 @@ export function PublicLayout() {
   return (
     <div className="min-h-screen bg-slate-100">
       <header className="border-b border-slate-200 bg-white px-4 py-4 text-[#1E3A8A] text-3xl font-bold">
-        Gestion de Multas
+        Gestión de multas
       </header>
 
       <div className="mx-auto w-8xl gap-2 px-4 py-6">
@@ -34,11 +34,11 @@ export function PublicLayout() {
                   <HugeiconsIcon icon={DashboardSquare01Icon} size={18} />
                   <span className="hidden sm:inline">Dashboard</span>
                 </NavLink>
-                <NavLink to="/reclamos" className={navClassName}>
+                <NavLink to="/complaints" className={navClassName}>
                   <HugeiconsIcon icon={AlertCircleIcon} size={18} />
                   <span className="hidden sm:inline">Reclamos</span>
                 </NavLink>
-                <NavLink to="/motivos" className={navClassName}>
+                <NavLink to="/reasons" className={navClassName}>
                   <HugeiconsIcon icon={Note05Icon} size={18} />
                   <span className="hidden sm:inline">Motivos</span>
                 </NavLink>
@@ -49,10 +49,9 @@ export function PublicLayout() {
               </div>
             </nav>
           </aside>
-
           <main className="min-w-0 flex-1">
             <Outlet />
-          </main>
+          </main>{" "}
         </div>
       </div>
     </div>

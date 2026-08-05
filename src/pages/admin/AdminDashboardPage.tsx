@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { usePublicDashboardMultas } from "../../features/multas/hooks/useMultas";
+import { usePublicDashboardFines } from "../../features/fines/hooks/useFines";
 
 type TimestampLike = { toDate?: () => Date } | null | undefined;
 
@@ -51,31 +51,30 @@ function MetricCard({
 }
 
 export function AdminDashboardPage() {
-  const multasQuery = usePublicDashboardMultas();
-  const multas = useMemo(() => multasQuery.data || [], [multasQuery.data]);
+  const finesQuery = usePublicDashboardFines();
+  const fines = useMemo(() => finesQuery.data || [], [finesQuery.data]);
 
   const dashboard = useMemo(() => {
-    const paid = multas.filter((multa) => multa.status === "paid");
-    const pending = multas.filter((multa) => multa.status === "pending");
-    const collected = paid.reduce((sum, multa) => sum + multa.total, 0);
-    const pendingTotal = pending.reduce((sum, multa) => sum + multa.total, 0);
+    const paid = fines.filter((fine) => fine.status === "paid");
+    const pending = fines.filter((fine) => fine.status === "pending");
+    const collected = paid.reduce((sum, fine) => sum + fine.total, 0);
+    const pendingTotal = pending.reduce((sum, fine) => sum + fine.total, 0);
     const generatedTotal = collected + pendingTotal;
     const collectionRate =
       generatedTotal > 0 ? (collected / generatedTotal) * 100 : 0;
-    const peopleWithDebt = new Set(pending.map((multa) => multa.multadoId))
-      .size;
+    const peopleWithDebt = new Set(pending.map((fine) => fine.personId)).size;
 
     const now = new Date();
     const months = Array.from({ length: 6 }, (_, index) => {
       const date = new Date(now.getFullYear(), now.getMonth() - (5 - index), 1);
       const year = date.getFullYear();
       const month = date.getMonth();
-      const amount = paid.reduce((sum, multa) => {
-        const paidDate = toDate(multa.paidAt);
+      const amount = paid.reduce((sum, fine) => {
+        const paidDate = toDate(fine.paidAt);
         return paidDate &&
           paidDate.getFullYear() === year &&
           paidDate.getMonth() === month
-          ? sum + multa.total
+          ? sum + fine.total
           : sum;
       }, 0);
       return {
@@ -88,11 +87,11 @@ export function AdminDashboardPage() {
     });
 
     const reasonCounts = new Map<string, number>();
-    multas.forEach((multa) => {
+    fines.forEach((fine) => {
       reasonCounts.set(
-        multa.motivoName || "Sin motivo",
-        (reasonCounts.get(multa.motivoName || "Sin motivo") || 0) +
-          multa.quantity,
+        fine.reasonName || "Sin motivo",
+        (reasonCounts.get(fine.reasonName || "Sin motivo") || 0) +
+          fine.quantity,
       );
     });
     const reasons = [...reasonCounts.entries()]
@@ -120,7 +119,7 @@ export function AdminDashboardPage() {
       reasons,
       recentPayments,
     };
-  }, [multas]);
+  }, [fines]);
 
   const maxMonthly = Math.max(
     ...dashboard.months.map((month) => month.amount),
@@ -140,21 +139,21 @@ export function AdminDashboardPage() {
         </p>
       </header>
 
-      {multasQuery.isLoading && (
+      {finesQuery.isLoading && (
         <div className="rounded-xl bg-white p-6 text-sm text-slate-500">
           Cargando indicadores...
         </div>
       )}
-      {multasQuery.isError && (
+      {finesQuery.isError && (
         <p
           role="alert"
           className="rounded-lg bg-red-50 p-3 text-sm text-red-700"
         >
-          {multasQuery.error.message || "No se pudo cargar el dashboard."}
+          {finesQuery.error.message || "No se pudo cargar el dashboard."}
         </p>
       )}
 
-      {multasQuery.isSuccess && (
+      {finesQuery.isSuccess && (
         <>
           <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             <MetricCard
@@ -171,7 +170,7 @@ export function AdminDashboardPage() {
             />
             <MetricCard
               label="Total de multas"
-              value={multas.length}
+              value={fines.length}
               detail={formatMoney(dashboard.generatedTotal) + " generados"}
               tone="bg-blue-500"
             />
@@ -280,10 +279,10 @@ export function AdminDashboardPage() {
                     {dashboard.recentPayments.map((payment) => (
                       <tr key={payment.id}>
                         <td className="px-6 py-4 font-medium text-slate-950">
-                          {payment.multadoName || "—"}
+                          {payment.personName || "—"}
                         </td>
                         <td className="px-6 py-4 font-medium text-slate-950">
-                          {payment.motivoName}
+                          {payment.reasonName}
                         </td>
                         <td className="px-6 py-4 font-medium">
                           {formatMoney(payment.total)}

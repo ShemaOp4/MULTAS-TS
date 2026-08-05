@@ -8,7 +8,9 @@ service cloud.firestore {
 
     function isAdmin() {
       return signedIn()
-        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && exists(
+          /databases/$(database)/documents/users/$(request.auth.uid)
+        )
         && get(
           /databases/$(database)/documents/users/$(request.auth.uid)
         ).data.role == "admin"
@@ -22,21 +24,22 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    match /multados/{documentId} {
+    match /finedPeople/{documentId} {
       allow read, write: if isAdmin();
     }
 
-    match /motivos/{documentId} {
+    match /reasons/{documentId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    match /multas/{documentId} {
+    match /fines/{documentId} {
       allow read, write: if isAdmin();
     }
 
-    match /reclamos/{documentId} {
+    match /complaints/{documentId} {
       allow read, update: if isAdmin();
+
       allow create: if request.resource.data.keys().hasOnly([
           "subject",
           "description",
@@ -55,6 +58,7 @@ service cloud.firestore {
         && request.resource.data.anonymous == true
         && request.resource.data.createdAt == request.time
         && request.resource.data.updatedAt == request.time;
+
       allow delete: if false;
     }
 
@@ -63,7 +67,7 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    match /publicMultas/{documentId} {
+    match /publicFines/{documentId} {
       allow read: if true;
       allow write: if isAdmin();
     }

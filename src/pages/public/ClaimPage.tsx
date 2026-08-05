@@ -1,8 +1,8 @@
 import { useState, type FormEvent } from "react";
-import { useCreateReclamo } from "../../features/reclamos/hooks/useReclamos";
+import { useCreateComplaint } from "../../features/complaints/hooks/useComplaints";
 
 export function ClaimsPage() {
-  const createMutation = useCreateReclamo();
+  const createMutation = useCreateComplaint();
   const [sent, setSent] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {

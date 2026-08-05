@@ -3,22 +3,22 @@ import { PublicLayout } from "../components/PublicLayout";
 import { ClaimsPage } from "../pages/public/ClaimPage";
 import PublicList from "../pages/PublicList";
 import { AdminLayout } from "../components/AdminLayout";
-import { AdminMultasPage } from "../pages/admin/AdminMultasPage";
-import { AdminMultadosPage } from "../pages/admin/AdminMultadosPage";
+import { AdminFinesPage } from "../pages/admin/AdminFinesPage";
+import { AdminFinedPeoplePage } from "../pages/admin/AdminFinedPage";
 import { AdminDashboardPage } from "../pages/admin/AdminDashboardPage";
 import { ProtectedAdminRoute } from "../features/auth/components/ProtectedAdminRoute";
 import { AdminLoginPage } from "../pages/admin/AdminLoginPage";
-import { AdminReclamosPage } from "../pages/admin/AdminReclamosPage";
-import { MotivosPage } from "../pages/MotivosPage";
+import { ReasonsPage } from "../pages/ReasonsPage";
+import { AdminComplaintsPage } from "../pages/admin/AdminuseComplaintsPage";
 
 export const router = createBrowserRouter([
   {
     element: <PublicLayout />,
     children: [
       { path: "/", element: <PublicList /> },
-      { path: "/reclamos", element: <ClaimsPage /> },
+      { path: "/complaints", element: <ClaimsPage /> },
       { path: "/dashboard", element: <AdminDashboardPage /> },
-      { path: "/motivos", element: <MotivosPage /> },
+      { path: "/reasons", element: <ReasonsPage /> },
       { path: "/admin/login", element: <AdminLoginPage /> },
     ],
   },
@@ -31,23 +31,27 @@ export const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <AdminMultasPage />,
+            element: <AdminFinesPage />,
           },
           {
-            path: "multados",
-            element: <AdminMultadosPage />,
+            path: "fines",
+            element: <AdminFinesPage />,
+          },
+          {
+            path: "people",
+            element: <AdminFinedPeoplePage />,
           },
           {
             path: "dashboard",
             element: <AdminDashboardPage />,
           },
           {
-            path: "reclamos",
-            element: <AdminReclamosPage />,
+            path: "complaints",
+            element: <AdminComplaintsPage />,
           },
           {
-            path: "motivos",
-            element: <MotivosPage />,
+            path: "reasons",
+            element: <ReasonsPage />,
           },
         ],
       },

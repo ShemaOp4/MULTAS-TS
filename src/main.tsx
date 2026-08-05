@@ -1,17 +1,37 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import "./index.css";
 import App from "./App";
-import { queryClient } from "./app/queryClient.ts";
+import { PERSISTED_CACHE_MAX_AGE, queryClient } from "./app/queryClient";
+import { queryKeys } from "./app/queryKeys";
+import { queryPersister } from "./app/queryPersister";
 import { AuthProvider } from "./features/auth/context/AuthProvider";
+
+const persistedQueryKeys = new Set<string>([
+  queryKeys.reasons.all[0],
+  queryKeys.publicSummaries.all[0],
+]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{
+        persister: queryPersister,
+        maxAge: PERSISTED_CACHE_MAX_AGE,
+        buster: "fines-public-cache-v2",
+        dehydrateOptions: {
+          shouldDehydrateQuery: (query) =>
+            query.state.status === "success" &&
+            persistedQueryKeys.has(String(query.queryKey[0])),
+          shouldDehydrateMutation: () => false,
+        },
+      }}
+    >
       <AuthProvider>
         <App />
       </AuthProvider>
-    </QueryClientProvider>
+    </PersistQueryClientProvider>
   </StrictMode>,
 );

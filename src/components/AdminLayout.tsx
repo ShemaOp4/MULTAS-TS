@@ -59,19 +59,19 @@ export function AdminLayout() {
                 Dashboard
               </NavLink>
 
-              <NavLink to="/admin/multados" className={navClassName}>
+              <NavLink to="/admin/people" className={navClassName}>
                 <HugeiconsIcon icon={UserMultipleIcon} size={19} />
                 Personas
               </NavLink>
 
-              <NavLink to="/admin/motivos" className={navClassName}>
+              <NavLink to="/admin/reasons" className={navClassName}>
                 <HugeiconsIcon icon={Note05Icon} size={19} />
                 Motivos
               </NavLink>
 
-              <NavLink to="/admin/reclamos" className={navClassName}>
+              <NavLink to="/admin/complaints" className={navClassName}>
                 <HugeiconsIcon icon={AlertCircleIcon} size={18} />
-                <span className="hidden sm:inline">Bandeja de Reclamos</span>
+                <span className="hidden sm:inline">Bandeja de reclamos</span>
               </NavLink>
               <button
                 type="button"

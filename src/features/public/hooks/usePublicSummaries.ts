@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getPublicSummaries } from "../api/publicSummaries";
 import type { PublicSummary } from "../api/publicSummaries";
-
-export const publicSummariesKey = ["public-summaries"] as const;
+import { queryKeys } from "../../../app/queryKeys";
 
 export function usePublicSummaries() {
   return useQuery<PublicSummary[]>({
-    queryKey: publicSummariesKey,
+    queryKey: queryKeys.publicSummaries.all,
     queryFn: getPublicSummaries,
   });
 }

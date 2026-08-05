@@ -3,6 +3,7 @@ import { onAuthStateChanged, signOut, type User } from "firebase/auth";
 import { auth } from "../../../service/firebase/config";
 import { getAdminProfile } from "../api/auth";
 import { AuthContext } from "./AuthContext";
+import { clearPrivateQueries } from "../../../app/queryClient";
 
 type AdminProfile = {
   role: string;
@@ -22,6 +23,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     return onAuthStateChanged(auth, async (user) => {
       if (!user) {
+        clearPrivateQueries();
         setAdmin(null);
         setLoading(false);
         return;
@@ -32,6 +34,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setAdmin({ user, profile });
       } catch (error) {
         console.error("No se pudo validar la sesión administrativa:", error);
+        clearPrivateQueries();
         await signOut(auth);
         setAdmin(null);
       } finally {
