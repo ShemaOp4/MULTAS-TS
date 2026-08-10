@@ -29,3 +29,9 @@ dist-ssr
 # Firebase Admin credentials
 service-account*.json
 *.service-account.json
+# Firebase local cache
+.firebase/
+
+# Local agent tooling
+.agents/
+skills-lock.json
