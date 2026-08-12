@@ -1,11 +1,6 @@
 node_modules
 dist
 .git
-.github
-.firebase
-.agents
 .env
-.env.\*
-\*.log
-.DS_Store
-README.md
+.env.local
+*.log
