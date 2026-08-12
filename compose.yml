@@ -1,7 +1,8 @@
 services:
   multas-web:
     container_name: multas-web
-    image: shemaop4/multas-web:1.0.0
+    image: shemaop4/multas-web:1.0.1
+    platform: linux/amd64
 
     build:
       context: .
