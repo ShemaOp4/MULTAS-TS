@@ -75,13 +75,13 @@ export function AdminLoginPage() {
         role="dialog"
         aria-modal="true"
         aria-labelledby="admin-login-title"
-        className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-2xl"
+        className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-2xl dark:border-slate-700 dark:bg-slate-800"
       >
         <button
           type="button"
           onClick={closeModal}
           aria-label="Cerrar acceso administrativo"
-          className="absolute right-4 top-4 grid size-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="absolute right-4 top-4 grid size-9 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-slate-950 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white"
         >
           <svg
             viewBox="0 0 24 24"
@@ -99,18 +99,18 @@ export function AdminLoginPage() {
         <div className="mb-8 pr-8">
           <h1
             id="admin-login-title"
-            className="text-2xl font-semibold text-[#1E3A8A]"
+            className="text-2xl font-semibold text-[#1E3A8A] dark:text-blue-300"
           >
             Acceso administrativo
           </h1>
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
             Ingresa con la cuenta creada por la administración.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <label className="block">
-            <span className="mb-2 block text-sm font-medium text-slate-700">
+            <span className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
               Correo electrónico
             </span>
             <input
@@ -118,12 +118,12 @@ export function AdminLoginPage() {
               name="email"
               autoComplete="email"
               required
-              className="w-full rounded-lg border border-slate-300 px-3 py-2.5 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+              className="w-full rounded-lg border border-slate-300 px-3 py-2.5 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
             />
           </label>
 
           <label className="block">
-            <span className="mb-2 block text-sm font-medium text-slate-700">
+            <span className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
               Contraseña
             </span>
             <input
@@ -132,14 +132,14 @@ export function AdminLoginPage() {
               autoComplete="current-password"
               required
               minLength={6}
-              className="w-full rounded-lg border border-slate-300 px-3 py-2.5 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+              className="w-full rounded-lg border border-slate-300 px-3 py-2.5 outline-none transition focus:border-blue-600 focus:ring-2 focus:ring-blue-100 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
             />
           </label>
 
           {error && (
             <p
               role="alert"
-              className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700"
+              className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700 dark:bg-red-950/40 dark:text-red-300"
             >
               {error}
             </p>

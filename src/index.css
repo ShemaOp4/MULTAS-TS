@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+/* Habilita las variantes dark: atadas a la clase .dark en <html>
+   (toggle manual) en lugar de prefers-color-scheme. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  /* Reserva siempre el gutter del scrollbar para que el layout centrado
+     no se desplace al cambiar entre vistas con y sin scroll vertical. */
+  scrollbar-gutter: stable;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
   min-width: 320px;

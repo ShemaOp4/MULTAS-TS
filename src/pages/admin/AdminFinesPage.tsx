@@ -19,8 +19,8 @@ export function AdminFinesPage() {
   return (
     <div className="space-y-8 px-3">
       <header>
-        <h1 className="text-2xl font-semibold text-[#1E3A8A]">Multas</h1>
-        <p className="mt-1 text-sm text-slate-600">Registra una nueva multa y consulta los totales acumulados.</p>
+        <h1 className="text-2xl font-semibold text-[#1E3A8A] dark:text-blue-300">Multas</h1>
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">Registra una nueva multa y consulta los totales acumulados.</p>
       </header>
       <FinesForm />
       <PendingFines />
